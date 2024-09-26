@@ -1,33 +1,20 @@
 import { Colors } from "@/constants/Colors";
-import { Stack } from "expo-router";
+import { Redirect, Stack } from "expo-router";
 import { StatusBar } from "expo-status-bar";
 import { useFonts } from "expo-font";
 import * as SplashScreen from "expo-splash-screen";
 import { useEffect } from "react";
+import { useAtomValue } from "jotai";
+import { authAtom } from "@/entites/auth/model/auth.state";
+import { routers } from "@/constants/routes";
 
 SplashScreen.preventAutoHideAsync();
 
 export default function RootLayout() {
-  // const insets = useSafeAreaInsets();
-  const [loaded, error] = useFonts({
-    FiraSansRegular: require("../../assets/fonts/FiraSans-Regular.ttf"),
-    FiraSansSemiBold: require("../../assets/fonts/FiraSans-SemiBold.ttf"),
-  });
+  const { access_token } = useAtomValue(authAtom);
 
-  useEffect(() => {
-    if (loaded) {
-      SplashScreen.hideAsync();
-    }
-  }, [loaded]);
-
-  useEffect(() => {
-    if (error) {
-      throw error;
-    }
-  }, [error]);
-
-  if (!loaded) {
-    return null;
+  if (!access_token) {
+    return <Redirect href={routers.login} />;
   }
 
   return (
@@ -42,8 +29,7 @@ export default function RootLayout() {
           },
           headerShown: false,
         }}
-      >
-      </Stack>
+      ></Stack>
     </>
   );
 }

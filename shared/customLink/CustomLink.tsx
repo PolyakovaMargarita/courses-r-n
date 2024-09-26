@@ -2,17 +2,17 @@ import { Colors } from "@/constants/Colors";
 import { FontFamily, FontSize } from "@/constants/Styles";
 import { StyleSheet, Text } from "react-native";
 
-import { Link } from "expo-router";
+import { Href, Link } from "expo-router";
 import { LinkProps } from "expo-router/build/link/Link";
-import { MAIN } from "@/constants/routes";
+import { routers } from "@/constants/routes";
 
 export const CustomLink = ({
   text,
   href,
   ...props
-}: LinkProps<any> & { text: string; href: string }) => {
+}: LinkProps<any> & { text: string; href: string | Href<string> }) => {
   return (
-    <Link href={href ? href : MAIN} style={style.container} {...props}>
+    <Link href={href ? href : routers.main} style={style.container} {...props}>
       <Text>{text}</Text>
     </Link>
   );

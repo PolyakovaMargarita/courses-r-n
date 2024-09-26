@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import { Colors } from "@/constants/Colors";
 import { Image, StyleSheet, Text, View } from "react-native";
@@ -6,22 +6,48 @@ import { Input } from "@/shared/input/Input";
 import { FontSize, Gap } from "@/constants/Styles";
 import { Button } from "@/shared/button/Button";
 import { ErrorNotification } from "@/shared/errorNotification/ErrorNotification";
-import { RESTORE } from "@/constants/routes";
 import { CustomLink } from "@/shared/customLink/CustomLink";
+import { routers } from "@/constants/routes";
+import { loginAtom } from "@/entites/auth/model/auth.state";
+import { useAtom } from "jotai";
+import { Redirect, router } from "expo-router";
+
+//a@a.ru
+//1
 
 export default function Login() {
-  const [error, setError] = useState<string | undefined>("");
+  const [errorLocal, setErrorLocal] = useState<string | undefined>("");
+  const [email, setEmail] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
+  const [{ access_token, isLoading, error }, login] = useAtom(loginAtom);
 
-  const alert = () => {
-    setError("Uncorrect password");
-    setTimeout(() => {
-      setError("");
-    }, 4000);
+  const submit = () => {
+    if (!email) {
+      setErrorLocal("Enter email");
+      return;
+    }
+    if (!password) {
+      setErrorLocal("Enter password");
+      return;
+    }
+    login({ email, password });
   };
-  
+
+  useEffect(() => {
+    error && setErrorLocal(error);
+  }, [error]);
+
+  useEffect(() => {
+    if (access_token) {
+      router.replace(routers.main);
+    }
+  }, [access_token]);
+
+  console.log("access_token", access_token);
+
   return (
     <View style={style.container}>
-      <ErrorNotification error={error} />
+      <ErrorNotification error={errorLocal} />
 
       <View style={style.content}>
         <View style={style.logo}>
@@ -35,11 +61,11 @@ export default function Login() {
           </Text>
         </View>
         <View style={style.form}>
-          <Input placeholder="Email" />
-          <Input isPassword placeholder="Password" />
-          <Button text="Log In" onPress={alert} />
+          <Input placeholder="Email" onChangeText={setEmail} />
+          <Input isPassword placeholder="Password" onChangeText={setPassword} />
+          <Button text="Log In" onPress={submit} />
         </View>
-        <CustomLink href={RESTORE} text="Recover password" />
+        <CustomLink href={routers.restore} text="Recover password" />
       </View>
     </View>
   );

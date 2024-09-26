@@ -1,5 +1,5 @@
 import { Colors } from "@/constants/Colors";
-import { MAIN } from "@/constants/routes";
+import { routers } from "@/constants/routes";
 import { FontFamily, FontSize } from "@/constants/Styles";
 import { CustomLink } from "@/shared/customLink/CustomLink";
 import { StyleSheet, Text, View } from "react-native";
@@ -10,7 +10,7 @@ export default function UnmachedRouter() {
     <View style={style.container}>
       <Image source={require("../assets/images/react-logo.png")} />
       <Text style={style.text}>Something wrong</Text>
-      <CustomLink href={MAIN} text="Go to main" />
+      <CustomLink href={routers.main} text="Go to main" />
     </View>
   );
 }

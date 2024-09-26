@@ -12,7 +12,6 @@ import { useEffect } from "react";
 SplashScreen.preventAutoHideAsync();
 
 export default function RootLayout() {
-  // const insets = useSafeAreaInsets();
   const [loaded, error] = useFonts({
     FiraSansRegular: require("../assets/fonts/FiraSans-Regular.ttf"),
     FiraSansSemiBold: require("../assets/fonts/FiraSans-SemiBold.ttf"),
@@ -35,7 +34,7 @@ export default function RootLayout() {
   }
 
   return (
-    <>
+    <SafeAreaProvider>
       <StatusBar style="light" />
       <Stack
         screenOptions={{
@@ -50,6 +49,6 @@ export default function RootLayout() {
         <Stack.Screen name="login" />
         <Stack.Screen name="restore" />
       </Stack>
-    </>
+    </SafeAreaProvider>
   );
 }

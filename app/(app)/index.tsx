@@ -1,46 +1,15 @@
-import React, { useState } from "react";
-
 import { Colors } from "@/constants/Colors";
-import { Image, StyleSheet, Text, View } from "react-native";
-import { Input } from "@/shared/input/Input";
-import { FontSize, Gap } from "@/constants/Styles";
+import { Image, StyleSheet, View } from "react-native";
+import { Gap } from "@/constants/Styles";
 import { Button } from "@/shared/button/Button";
-import { ErrorNotification } from "@/shared/errorNotification/ErrorNotification";
-import { RESTORE } from "@/constants/routes";
-import { CustomLink } from "@/shared/customLink/CustomLink";
+import { useSetAtom } from "jotai";
+import { logoutAtom } from "@/entites/auth/model/auth.state";
 
-export default function HomePage() {
-  const [error, setError] = useState<string | undefined>("");
-
-  const alert = () => {
-    setError("Uncorrect password");
-    setTimeout(() => {
-      setError("");
-    }, 4000);
-  };
-  
+export default function MyCourses() {
+  const logout = useSetAtom(logoutAtom)
   return (
     <View style={style.container}>
-      <ErrorNotification error={error} />
-
-      <View style={style.content}>
-        <View style={style.logo}>
-          <Image
-            source={require("../../assets/images/react-logo.png")}
-            style={{ width: 40, height: 40 }}
-            resizeMode="center"
-          />
-          <Text style={{ color: "#ffffff", fontSize: FontSize.fs22 }}>
-            PurpleSchool
-          </Text>
-        </View>
-        <View style={style.form}>
-          <Input placeholder="Email" />
-          <Input isPassword placeholder="Password" />
-          <Button text="Log In" onPress={alert} />
-        </View>
-        <CustomLink href={RESTORE} text="Recover password" />
-      </View>
+      <Button text="Log out" onPress={logout} />
     </View>
   );
 }
