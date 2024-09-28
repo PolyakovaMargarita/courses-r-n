@@ -5,11 +5,11 @@ import { useSetAtom } from "jotai";
 import { logoutAtom } from "@/entites/auth/model/auth.state";
 import Logo from "@/shared/logo/Logo";
 
-export default function MyCourses() {
+export default function MyProfile() {
   const logout = useSetAtom(logoutAtom);
   return (
     <View style={style.container}>
-      <Text>MyCourses</Text>
+      <Text>MyProfile</Text>
       <Button text="Log out" onPress={logout} />
       <Logo />
     </View>

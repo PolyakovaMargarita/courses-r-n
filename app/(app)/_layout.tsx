@@ -1,12 +1,14 @@
-import { Colors } from "@/constants/Colors";
-import { Redirect, Stack } from "expo-router";
-import { StatusBar } from "expo-status-bar";
-import { useFonts } from "expo-font";
+import { Redirect } from "expo-router";
 import * as SplashScreen from "expo-splash-screen";
-import { useEffect } from "react";
 import { useAtomValue } from "jotai";
 import { authAtom } from "@/entites/auth/model/auth.state";
 import { routers } from "@/constants/routes";
+import { GestureHandlerRootView } from "react-native-gesture-handler";
+import { Drawer } from "expo-router/drawer";
+import { Colors } from "@/constants/Colors";
+import { FontFamily, FontSize } from "@/constants/Styles";
+import { MenuButton } from "@/features/layout/ui/MenuButton/MenuButton";
+import { CustomDrawer } from "@/widget/layout/ui/customDrawer/CustomDrawer";
 
 SplashScreen.preventAutoHideAsync();
 
@@ -18,18 +20,42 @@ export default function RootLayout() {
   }
 
   return (
-    <>
-      <StatusBar style="light" />
-      <Stack
-        screenOptions={{
-          statusBarColor: Colors.black,
-          contentStyle: {
-            backgroundColor: Colors.black,
-            // paddingTop: insets.top,
+    <GestureHandlerRootView style={{ flex: 1 }}>
+      <Drawer
+        drawerContent={(props) => <CustomDrawer {...props} />}
+        screenOptions={({ navigation }) => ({
+          headerLeft: () => {
+            return <MenuButton navigation={navigation} />;
           },
-          headerShown: false,
-        }}
-      ></Stack>
-    </>
+          headerStyle: {
+            backgroundColor: Colors.blackLight,
+            shadowOpacity: 0,
+            shadowColor: Colors.blackLight,
+          },
+          headerTitleStyle: {
+            color: Colors.white,
+            fontSize: FontSize.fs18,
+            fontFamily: FontFamily.firaSansRegular,
+          },
+          headerTitleAlign: "center",
+          sceneContainerStyle: {
+            backgroundColor: Colors.black,
+          },
+        })}
+      >
+        <Drawer.Screen
+          name="index"
+          options={{
+            title: "My courses",
+          }}
+        />
+        <Drawer.Screen
+          name="profile"
+          options={{
+            title: "My profile",
+          }}
+        />
+      </Drawer>
+    </GestureHandlerRootView>
   );
 }

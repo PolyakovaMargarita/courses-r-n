@@ -1,19 +1,23 @@
 import React, { useEffect, useState } from "react";
 
 import { Colors } from "@/constants/Colors";
-import { Image, StyleSheet, Text, View } from "react-native";
+import { StyleSheet, View } from "react-native";
 import { Input } from "@/shared/input/Input";
-import { FontSize, Gap } from "@/constants/Styles";
+import { Gap } from "@/constants/Styles";
 import { Button } from "@/shared/button/Button";
 import { ErrorNotification } from "@/shared/errorNotification/ErrorNotification";
 import { CustomLink } from "@/shared/customLink/CustomLink";
 import { routers } from "@/constants/routes";
 import { loginAtom } from "@/entites/auth/model/auth.state";
 import { useAtom } from "jotai";
-import { Redirect, router } from "expo-router";
+import { router } from "expo-router";
+import Logo from "@/shared/logo/Logo";
 
 //a@a.ru
 //1
+
+//vasia@pupkin.ru
+//12345678
 
 export default function Login() {
   const [errorLocal, setErrorLocal] = useState<string | undefined>("");
@@ -44,26 +48,18 @@ export default function Login() {
   }, [access_token]);
 
   console.log("access_token", access_token);
+  console.log("error", error);
 
   return (
     <View style={style.container}>
       <ErrorNotification error={errorLocal} />
 
       <View style={style.content}>
-        <View style={style.logo}>
-          <Image
-            source={require("../assets/images/react-logo.png")}
-            style={{ width: 40, height: 40 }}
-            resizeMode="center"
-          />
-          <Text style={{ color: "#ffffff", fontSize: FontSize.fs22 }}>
-            PurpleSchool
-          </Text>
-        </View>
+        <Logo />
         <View style={style.form}>
           <Input placeholder="Email" onChangeText={setEmail} />
           <Input isPassword placeholder="Password" onChangeText={setPassword} />
-          <Button text="Log In" onPress={submit} />
+          <Button text="Log In" onPress={submit} isLoading={isLoading} />
         </View>
         <CustomLink href={routers.restore} text="Recover password" />
       </View>
@@ -82,12 +78,6 @@ const style = StyleSheet.create({
     alignItems: "center",
     gap: Gap.g50,
     width: "100%",
-  },
-  logo: {
-    flexDirection: "row",
-    alignItems: "center",
-    gap: 5,
-    color: "#ffffff",
   },
   form: {
     alignSelf: "stretch",

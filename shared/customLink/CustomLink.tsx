@@ -10,9 +10,16 @@ export const CustomLink = ({
   text,
   href,
   ...props
-}: LinkProps<any> & { text: string; href: string | Href<string> }) => {
+}: LinkProps<any> & {
+  text: string;
+  href: string | Href<string>;
+}) => {
   return (
-    <Link href={href ? href : routers.main} style={style.container} {...props}>
+    <Link
+      href={href ? href : routers.main}
+      style={style.container}
+      {...props}
+    >
       <Text>{text}</Text>
     </Link>
   );

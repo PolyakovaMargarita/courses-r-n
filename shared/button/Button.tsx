@@ -1,6 +1,7 @@
 import { Colors } from "@/constants/Colors";
 import { FontSize, Radius } from "@/constants/Styles";
 import {
+  ActivityIndicator,
   Animated,
   GestureResponderEvent,
   Pressable,
@@ -12,8 +13,9 @@ import {
 
 export const Button = ({
   text,
+  isLoading,
   ...props
-}: PressableProps & { text: string }) => {
+}: PressableProps & { text: string, isLoading?: boolean }) => {
   const animatedValue = new Animated.Value(100);
   const color = animatedValue.interpolate({
     inputRange: [0, 100],
@@ -41,7 +43,8 @@ export const Button = ({
   return (
     <Pressable {...props} onPressIn={fadeIn} onPressOut={fadeOut}>
       <Animated.View style={{ ...styles.button, backgroundColor: color }}>
-        <Text style={styles.text}>{text}</Text>
+        {!isLoading && <Text style={styles.text}>{text}</Text>}
+        {isLoading && <ActivityIndicator size="large" color={Colors.white} />}
       </Animated.View>
     </Pressable>
   );

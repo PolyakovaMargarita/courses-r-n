@@ -4,6 +4,7 @@ export const Radius = {
 
 export const Gap = {
   g10: 10,
+  g18: 18,
   g50: 50,
 };
 
